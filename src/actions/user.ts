@@ -19,3 +19,12 @@ export const syncUserAction = async () => {
   });
   return { isSynced: true };
 };
+export const getAuth = async () => {
+  const user = await currentUser();
+  if (!user) throw new Error("Unauthorized");
+  const dbUser = await client.user.findUnique({
+    where: { externalId: user.id },
+  });
+  if (!dbUser) throw new Error("User not found");
+  return dbUser;
+};
