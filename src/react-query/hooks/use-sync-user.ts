@@ -14,7 +14,7 @@ export const useSyncUser = () => {
     },
   });
   useEffect(() => {
-    if (data?.isSynced) router.push("/");
+    if (data?.isSynced) router.push("/todos");
   }, [data, router]);
   return { isError };
 };

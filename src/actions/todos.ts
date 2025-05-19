@@ -3,8 +3,6 @@ import { client } from "@/lib/db";
 import { getAuth } from "./user";
 import { Prisma } from "../../prisma/app/generated/prisma/client";
 
-
-
 export const createTodoAction = async ({
   title,
   completed,
@@ -29,10 +27,10 @@ export const createTodoAction = async ({
 export const getTodosAction = async (filter: TodoFilter) => {
   const user = await getAuth();
   if (!user) throw new Error("Unauthorized");
-  const where:Prisma.TodoWhereInput = {
+  const where: Prisma.TodoWhereInput = {
     userId: user.id,
   };
-  if(filter === "active") {
+  if (filter === "active") {
     where.completed = false;
   } else if (filter === "completed") {
     where.completed = true;
@@ -40,13 +38,26 @@ export const getTodosAction = async (filter: TodoFilter) => {
   const todos = await client.todo.findMany({
     where,
   });
+  const items_left = await client.todo.count({
+    where: {
+      userId: user.id,
+      completed: false,
+    },
+  });
   return {
     status: 200,
     message: "Todos fetched successfully",
     todos,
+    items_left,
   };
-}
-export const updateTodoStateAction = async({id,completed}: {id: string, completed: boolean}) => {
+};
+export const updateTodoStateAction = async ({
+  id,
+  completed,
+}: {
+  id: string;
+  completed: boolean;
+}) => {
   const user = await getAuth();
   if (!user) throw new Error("Unauthorized");
   const todo = await client.todo.update({
@@ -60,13 +71,13 @@ export const updateTodoStateAction = async({id,completed}: {id: string, complete
   return {
     status: 200,
     message: "Todo updated successfully",
-    todo,
+    new_status: todo.completed
   };
-}
-export const deleteTodoAction = async({id}: {id: string}) => {
+};
+export const deleteTodoAction = async ({ id }: { id: string }) => {
   const user = await getAuth();
   if (!user) throw new Error("Unauthorized");
-  const todo = await client.todo.delete({
+  await client.todo.delete({
     where: {
       id,
     },
@@ -74,6 +85,18 @@ export const deleteTodoAction = async({id}: {id: string}) => {
   return {
     status: 200,
     message: "Todo deleted successfully",
-    todo,
   };
-}
+};
+export const clearCompletedAction = async () => {
+  const user = await getAuth();
+  await client.todo.deleteMany({
+    where: {
+      userId: user.id,
+      completed: true,
+    },
+  });
+  return {
+    status: 200,
+    message: "Todos cleared successfully",
+  };
+};
