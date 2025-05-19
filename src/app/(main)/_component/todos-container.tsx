@@ -36,7 +36,7 @@ function TodosContainer() {
             ))}
         </ul>
       </ScrollArea>
-      <TodosFilters itemsLeft={todosData?.todos?.filter((todo) => !todo.completed).length || 0}/>
+      <TodosFilters itemsLeft={todosData?.items_left || 0}/>
     </>
   );
 }
@@ -49,19 +49,19 @@ function TodosStates({
   switch (state) {
     case "loading":
       return (
-        <div className="min-h-32 flex items-center justify-center">
+        <div className="h-96 flex items-center justify-center">
           <Loader2 className="animate-spin text-primary size-8" />
         </div>
       );
     case "error":
       return (
-        <p className="text-red-500 text-center min-h-32 flex items-center justify-center">
+        <p className="text-red-500 text-center h-96 flex items-center justify-center">
         Error fetching todos
       </p>
       )
     case "empty":
       return (
-        <div className="min-h-32 flex items-center justify-center">
+        <div className="h-96 flex items-center justify-center">
           <p className="text-center text-muted-foreground">No todos found</p>
         </div>
       )

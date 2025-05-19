@@ -7,7 +7,11 @@ import { useCreateTodo } from "@/react-query/hooks/use-create-todo";
 function CreateTodo() {
   const [title, setTitle] = useState("");
   const [checked, setChecked] = useState(false);
-  const { createTodo, isPending } = useCreateTodo();
+
+  const { createTodo, isPending } = useCreateTodo(() => {
+    setTitle("");
+    setChecked(false);
+  });
   return (
     <form
       onSubmit={(e) => {
@@ -15,8 +19,6 @@ function CreateTodo() {
         if (title.trim() === "") return;
         if (isPending) return;
         createTodo({ title, checked });
-        setTitle("");
-        setChecked(false);
       }}
     >
       <Card className="px-1 py-4 mb-6">
