@@ -1,7 +1,7 @@
 "use server";
 import { client } from "@/lib/db";
 import { getAuth } from "./user";
-import { Prisma } from "../../prisma/app/generated/prisma/client";
+import { Prisma } from "@prisma/client";
 
 export const createTodoAction = async ({
   title,

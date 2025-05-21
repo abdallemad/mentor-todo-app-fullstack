@@ -6,7 +6,7 @@ import {
 } from "@/react-query/hooks/use-update-todo";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2, X } from "lucide-react";
-import { Todo } from "../../../../prisma/app/generated/prisma/client";
+import { Todo } from "@prisma/client";
 
 function TodoItem({ todo }: { todo: Todo }) {
   const queryClient = useQueryClient();
