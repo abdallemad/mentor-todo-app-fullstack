@@ -19,16 +19,16 @@ export default function SignUpPage() {
           {(isGlobalLoading) => (
             <>
               <SignUp.Step name="start">
-                <Card className="w-full text-center">
+                <Card className="w-full text-center min-w-80 grow">
                   <CardHeader>
-                    <CardTitle>Continue With Social</CardTitle>
+                    <CardTitle>Sign up with social</CardTitle>
                   </CardHeader>
                   <CardContent className="grid gap-4">
                     <div className="grid gap-4">
                       <Clerk.Connection name="github" asChild>
                         <Button
                           size="sm"
-                          variant="outline"
+                          variant="default"
                           type="button"
                           disabled={isGlobalLoading}
                         >
