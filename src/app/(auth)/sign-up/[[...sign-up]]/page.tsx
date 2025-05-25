@@ -22,6 +22,9 @@ export default function SignUpPage() {
                 <Card className="w-full text-center min-w-80 grow">
                   <CardHeader>
                     <CardTitle>Sign up with social</CardTitle>
+                    <CardDescription>
+                      Sign up to your account. to see your todos
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-4">
                     <div className="grid gap-4">
